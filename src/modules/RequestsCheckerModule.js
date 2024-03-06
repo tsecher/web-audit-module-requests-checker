@@ -159,7 +159,7 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 	onNetworkLoadingFinished(event) {
 		const response = this.responsesMap.get(event.requestId);
 
-		if (response.protocol === 'data'){
+		if (response.protocol === 'data') {
 			return;
 		}
 
@@ -194,7 +194,11 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 	 */
 	async onResponse(response) {
 		if (response.ok()) {
-			this.responseSizes[response.url()] = (await response.buffer()).length;
+			try {
+				this.responseSizes[response.url()] = (await response.buffer()).length;
+			} catch (e) {
+				this.context?.config?.logger?.error(e);
+			}
 		}
 	};
 
