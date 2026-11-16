@@ -1,0 +1,159 @@
+{
+  "id": "requests_checker",
+  "label": "Requests checker",
+  "description": "Check requests cache and performance.",
+  "types": [
+    "page"
+  ],
+  "structure": {
+    "requests_checker": {
+      "label": "Request checker details",
+      "description": "The requests checker.",
+      "structure": {
+        "url": {
+          "label": "Url",
+          "description": "The audited page",
+          "type": "string"
+        },
+        "context": {
+          "label": "Context",
+          "description": "The context",
+          "type": "string"
+        },
+        "nb": {
+          "label": "NB requests",
+          "description": "The count of requests",
+          "type": "number",
+          "values":{
+            "target": 0,
+            "min_target": 50
+          }
+        },
+        "ratioCacheControle":{
+          "label": "Cache Controle (%)",
+          "description": "The purcentage of Cached controlled requests",
+          "type": "number",
+          "values":{
+            "target": 100,
+            "min_target": 75
+          }
+        },
+        "ratioHttp2":{
+          "label": "Http 2 (%)",
+          "description": "The purcentage of requests called with HTTP2 protocol",
+          "type": "number",
+          "values":{
+            "target": 100,
+            "min_target": 100
+          }
+        },
+        "secure":{
+          "label": "HTTPS (%)",
+          "description": "The purcentage of HTTPS requests",
+          "type": "number",
+          "values": {
+            "target": 100,
+            "min_target": 100
+          }
+        },
+        "badEncoded":{
+          "label": "Nb requests encoded > decoded",
+          "description": "The count of requests that are heavier when encoded",
+          "type": "number",
+          "values":{
+            "target": 0,
+            "min_target": 10
+          }
+        },
+        "encoded":{
+          "label": "Encoded requests (%)",
+          "description": "The purcentage of requests that are encoded",
+          "type": "number",
+          "values":{
+            "target": 100,
+            "min_target": 100
+          }
+        }
+      }
+    },
+    "requests_checker_details": {
+      "label": "Request checker details",
+      "description": "The requests checker.",
+      "structure": {
+        "url": {
+          "label": "Url",
+          "description": "The audited page",
+          "type": "string"
+        },
+        "context": {
+          "label": "Context",
+          "description": "The context",
+          "type": "string"
+        },
+        "src": {
+          "label": "Source",
+          "description": "The source",
+          "type": "string"
+        },
+        "status": {
+          "label": "Status",
+          "description": "Response status",
+          "type": "number",
+          "values": {
+            "target": 200
+          }
+        },
+        "mimeType": {
+          "label": "MimeType",
+          "description": "The response mimeType",
+          "type": "string"
+        },
+        "contentEncoding": {
+          "label": "Content encoding",
+          "description": "The enconding",
+          "type": "string"
+        },
+        "responseHeaderSize": {
+          "label": "Response header size",
+          "description": "The response header size",
+          "type": "number"
+        },
+        "encodedDataLength": {
+          "label": "Encoded data length",
+          "description": "The encoded data length",
+          "type": "number"
+        },
+        "fromCache": {
+          "label": "From cache",
+          "description": "Content loaded form cache",
+          "type": "bool"
+        },
+        "cacheControl": {
+          "label": "Cache control",
+          "description": "The cache control",
+          "type": "string"
+        },
+        "protocol": {
+          "label": "Protocol",
+          "description": "The request protocol",
+          "type": "string"
+        },
+        "securityState": {
+          "label": "Security State",
+          "description": "The security state",
+          "type": "string"
+        },
+        "securityProtocole": {
+          "label": "Security protocol",
+          "description": "The security protocol",
+          "type": "string"
+        },
+        "decodedDataLength": {
+          "label": "Decoded data length",
+          "description": "The decoded data length",
+          "type": "number"
+        }
+      }
+    }
+  }
+}

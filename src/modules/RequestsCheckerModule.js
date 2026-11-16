@@ -1,6 +1,7 @@
 import {AbstractPuppeteerJourneyModule} from 'web_audit/dist/journey/AbstractPuppeteerJourneyModule.js';
 import {PuppeteerJourneyEvents} from 'web_audit/dist/journey/AbstractPuppeteerJourney.js';
 import {ModuleEvents} from 'web_audit/dist/modules/ModuleInterface.js';
+import schema from "./requests-checker.schema.json" with {type: "json"};
 
 /**
  * Requests Checker Module events.
@@ -25,6 +26,10 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 		return `requests_checker`;
 	}
 
+	getSchema() {
+		return schema;
+	}
+
 	contextsData = {};
 
 	/**
@@ -33,33 +38,7 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 	async init(context) {
 		this.context = context;
 		// Install store.
-		this.context.config.storage?.installStore('requests_checker', this.context, {
-			url: 'Url',
-			context: 'Context',
-			nb: 'NB requests',
-			ratioCacheControle: 'Cache Controle (%)',
-			ratioHttp2: 'Http 2 (%)',
-			secure: 'HTTPS (%)',
-			badEncoded: 'Nb requests encoded > decoded',
-			encoded: 'Encoded requests (%)',
-		});
-
-		// Install store detail.
-		this.context.config.storage?.installStore('requests_checker_details', this.context, {
-			url: 'Url',
-			context: 'Context',
-			src: 'Source',
-			mimeType: 'Mime type',
-			contentEncoding: 'Content Encoding',
-			responseHeaderSize: 'Response Header Size',
-			encodedDataLength: 'Encoded Data Length',
-			decodedDataLength: 'Decoded Data Length',
-			fromCache: 'From Cache',
-			cacheControl: 'Cache Control',
-			protocol: 'Protocol',
-			securityState: 'Security State',
-			securityProtocole: 'Security Protocole',
-		});
+		this.context.config.storage?.installSchema(this, this.context);
 
 		// Emit.
 		this.context.eventBus.emit(RequestsCheckerModuleEvents.createRequestsCheckerModule, {module: this});
@@ -106,7 +85,7 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 
 		for (let source of Object.values(this.contextsData[contextName])) {
 			source.decodedDataLength = this.responseSizes[source.src]
-			this.context?.config?.storage?.add('requests_checker_details', this.context,
+			this.context?.config?.storage?.add(this, 'requests_checker_details', this.context,
 				{
 					url: urlWrapper.url.toString(),
 					context: contextName,
@@ -123,7 +102,7 @@ export default class RequestsCheckerModule extends AbstractPuppeteerJourneyModul
 
 		this.context?.eventBus.emit(RequestsCheckerModuleEvents.onResult, eventData);
 		this.context?.config?.logger.result(`Requests Checker`, eventData.result, urlWrapper.url.toString());
-		this.context?.config?.storage?.add('requests_checker', this.context, eventData.result);
+		this.context?.config?.storage?.add(this, 'requests_checker', this.context, eventData.result);
 		this.context?.eventBus.emit(ModuleEvents.afterAnalyse, eventData);
 		this.context?.eventBus.emit(RequestsCheckerModuleEvents.afterAnalyse, eventData);
 	}

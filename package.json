@@ -3,8 +3,13 @@
   "main": "index.js",
   "license": "MIT",
   "type": "module",
+  "keywords": [
+    "web-audit",
+    "web-audit-plugin",
+    "requests checker"
+  ],
   "dependencies": {
-    "web_audit": "^5.0.0-rc3"
+    "web_audit": "https://github.com/tsecher/web-audit.git"
   },
   "version": "1.0.1"
 }
